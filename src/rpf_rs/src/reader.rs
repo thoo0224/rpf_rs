@@ -35,7 +35,7 @@ where
 }
 
 macro_rules! create_read_def {
-    ($type:ident) => {
+    ($type:tt) => {
         paste::item! {
             #[allow(dead_code)]
             #[inline]
