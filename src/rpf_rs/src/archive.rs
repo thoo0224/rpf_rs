@@ -8,7 +8,7 @@ pub struct Header {
     pub magic: u32,
     pub entry_count: u32,
     pub names_length: u32,
-    pub decryption_type: u32,
+    pub encryption_type: u32,
 }
 
 impl<D> Deserializable<D> for Header
@@ -20,7 +20,7 @@ where
             magic: reader.read_u32()?,
             entry_count: reader.read_u32()?,
             names_length: reader.read_u32()?,
-            decryption_type: reader.read_u32()?,
+            encryption_type: reader.read_u32()?,
         })
     }
 }
@@ -33,14 +33,18 @@ impl Header {
 
         Ok(())
     }
+
+    pub fn is_valid_archive(&self) -> bool {
+        self.magic == RPF_MAGIC
+    }
 }
 
 impl PartialEq for Header {
     fn eq(&self, other: &Self) -> bool {
-        self.magic == other.magic &&
-        self.entry_count == other.entry_count &&
-        self.names_length == other.names_length &&
-        self.decryption_type == other.decryption_type
+        self.magic == other.magic
+            && self.entry_count == other.entry_count
+            && self.names_length == other.names_length
+            && self.encryption_type == other.encryption_type
     }
 }
 
