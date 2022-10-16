@@ -9,3 +9,8 @@ pub unsafe extern "C" fn create_archive<'a>(ptr: *const u8, len: usize) -> *cons
 
     Arc::into_raw(Arc::new(archive)) as *const Archive<&'a [u8]>
 }
+
+#[no_mangle]
+pub unsafe extern "C" fn free_archive<'a>(archive: *const Archive<&'a [u8]>) {
+    let _archive = Arc::from_raw(archive);
+}

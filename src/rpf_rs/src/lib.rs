@@ -7,7 +7,7 @@ pub type Result<T> = std::result::Result<T, Box<dyn Error>>;
 pub mod archive;
 pub mod prelude;
 pub mod reader;
-mod native;
+pub mod native;
 
 #[cfg(test)]
 mod tests;
