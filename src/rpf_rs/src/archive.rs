@@ -3,6 +3,7 @@ use crate::{Deserializable, Result};
 
 pub const RPF_MAGIC: u32 = 0x52504637;
 
+#[derive(Debug)]
 pub struct Header {
     pub magic: u32,
     pub entry_count: u32,
@@ -34,6 +35,15 @@ impl Header {
     }
 }
 
+impl PartialEq for Header {
+    fn eq(&self, other: &Self) -> bool {
+        self.magic == other.magic &&
+        self.entry_count == other.entry_count &&
+        self.names_length == other.names_length &&
+        self.decryption_type == other.decryption_type
+    }
+}
+
 pub struct Archive<D>
 where
     D: AsRef<[u8]>,
@@ -51,6 +61,10 @@ where
             name: name.unwrap_or_else(|| "archive.rpf".to_owned()),
             reader: Reader::from(data),
         }
+    }
+
+    pub fn read_header(&mut self) -> Result<Header> {
+        Header::deserialize(&mut self.reader)
     }
 }
 
