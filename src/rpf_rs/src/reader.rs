@@ -43,7 +43,7 @@ macro_rules! create_read_def {
                 let size = $type::BITS as usize / 8;
                 self.can_read(size)?;
 
-                let buf = self.get_slice(size);
+                let buf = self.read_slice(size)?;
                 Ok($type::from_le_bytes(buf[0..size].try_into().unwrap()))
             }
         }
@@ -77,8 +77,11 @@ where
     }
 
     #[inline]
-    pub fn get_slice(&mut self, len: usize) -> &[u8] {
-        &self.data.as_ref()[self.pos as usize..len]
+    pub fn read_slice(&mut self, len: usize) -> Result<&[u8]> {
+        let res = &self.data.as_ref()[self.pos as usize..self.pos as usize + len];
+        self.pos += len as i64;
+
+        Ok(res)
     }
 
     create_read_def!(i8);
