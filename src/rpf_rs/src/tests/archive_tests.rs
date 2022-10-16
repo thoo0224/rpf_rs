@@ -12,7 +12,7 @@ fn create_test_archive<'a>() -> Result<Archive<&'a [u8]>> {
 
 #[test]
 fn test_read_header() -> Result<()> {
-    let archive = create_test_archive()?;
+    let _archive = create_test_archive()?;
 
     Ok(())
 }

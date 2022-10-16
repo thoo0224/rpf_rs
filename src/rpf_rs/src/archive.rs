@@ -48,7 +48,7 @@ where
 {
     pub fn new(name: Option<String>, data: D) -> Self {
         Self {
-            name: name.unwrap_or("archive.rpf".to_owned()),
+            name: name.unwrap_or_else(|| "archive.rpf".to_owned()),
             reader: Reader::from(data),
         }
     }
